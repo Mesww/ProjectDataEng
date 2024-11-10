@@ -71,7 +71,7 @@ const HistoryPage = () => {
 
         {borrowingHistory.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {borrowingHistory.map((history) => {
+            {borrowingHistory.map((history, index) => {
               const book = books[history.book_id];
               return (
                 <div key={history._id} className="bg-white shadow-md rounded-lg p-4">
@@ -83,13 +83,13 @@ const HistoryPage = () => {
                       <p><strong>Genre:</strong> {book.genre}</p>
                       <p><strong>Publication Date:</strong> {new Date(book.publication_date).toLocaleDateString()}</p>
                       <p><strong>ISBN:</strong> {book.isbn}</p>
-                      
+                      <p className="mt-4"><strong>Due Date:</strong> {new Date(book.due_date).toLocaleDateString()}</p>
                     </>
                   ) : (
                     <p>Loading book details...</p>
                   )}
-                   <p className="mt-4"><strong>Borrowed Date:</strong> {new Date(history.borrow_date).toLocaleDateString()}</p>
-                  <p ><strong>Due Date:</strong> {new Date(book.due_date).toLocaleDateString()}</p>
+                   <p ><strong>Borrowed Date:</strong> {new Date(history.borrow_date).toLocaleDateString()}</p>
+                 
                 </div>
               );
             })}
