@@ -12,8 +12,8 @@ export const fetchTransactions = async () => {
     return response.data;
   };
   
-  export const addTransaction = async () => {
-    const response = await axiosInstance.post('/transactions');
+  export const addTransaction = async (transactionData: { book_id: string; borrower_id: string; borrow_date: string; due_date: string; return_date: string; }) => {
+    const response = await axiosInstance.post('/transactions',transactionData);
     return response.data;
   };
   
