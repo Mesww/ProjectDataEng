@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../../components/Sidebar'; // Import Sidebar
 import { fetchBooks } from '../../api/booksApi'; // assuming fetchBooks is in a file named bookApi.js
+import Books from '../../interfaces/bookInterface';
+import Sidebar from '../../components/Sidebar';
 
 const HomePage = ({ onLogout }: { onLogout: () => void }) => {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<Books[]>([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
