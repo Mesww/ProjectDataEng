@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { fetchBooks } from "../../api/booksApi"; // assuming fetchBooks is in a file named bookApi.js
 import Books from "../../interfaces/bookInterface";
 import Sidebar from "../../components/Sidebar";
@@ -36,7 +36,7 @@ const HomePage = () => {
 
       {/* Main Content */}
       <div className="flex-1 p-6">
-        <h1 className="text-3xl font-semibold text-center mb-6">Home Page</h1>
+        <h1 className="text-3xl font-semibold text-center mb-6">Welcome {user?.name}</h1>
         <div className="text-center mb-6">
           <button
             onClick={logout}

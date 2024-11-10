@@ -4,27 +4,30 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
 
   // Simulate a simple users array with roles
   const users = [
-    { username: "admin", password: "admin123", role: "admin" },
-    { username: "user", password: "123", role: "user" },
+    { email: "john@doe.com", password: "123", role: "admin", name: 'John Doe', activeStatus: true, id: '67311c87a901b63383d5c7e9'},
+    { email: "kim@123.com", password: "123", role: "user",  name: 'kim', activeStatus: true, id: '67311caca901b63383d5c7ed'},
   ];
 
   const handleLogin = () => {
     const user = users.find(
-      (u) => u.username === username && u.password === password
+      (u) => u.email === email && u.password === password
     );
 
     if (user) {
       // Store user data without the password
       login({
-        username: user.username,
+        email: user.email,
         role: user.role,
+        name: user.name,
+        activeStatus: user.activeStatus,
+        id: user.id
       });
       navigate(user.role === "admin" ? "/admin" : "/");
     } else {
@@ -47,9 +50,9 @@ const LoginPage = () => {
             <div className="relative">
               <input
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
               />
             </div>

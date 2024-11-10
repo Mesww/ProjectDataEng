@@ -2,8 +2,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface User {
-  username: string;
+  email: string;
   role: string;
+  name: string;
+  activeStatus: boolean;
+  id: string;
 }
 
 interface AuthContextType {
