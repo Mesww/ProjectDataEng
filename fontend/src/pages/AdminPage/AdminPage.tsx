@@ -1,10 +1,10 @@
 // AdminPage.tsx
 
-const AdminPage = ({ onLogout }: { onLogout: () => void }) => {
+const AdminPage = () => {
   return (
     <div>
       <h1>Admin Dashboard</h1>
-      <button onClick={onLogout}>Logout</button>
+      <button>Logout</button>
     </div>
   );
 };

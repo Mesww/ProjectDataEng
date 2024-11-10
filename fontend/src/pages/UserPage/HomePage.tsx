@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { fetchBooks } from '../../api/booksApi'; // assuming fetchBooks is in a file named bookApi.js
-import Books from '../../interfaces/bookInterface';
-import Sidebar from '../../components/Sidebar';
+import React, { useEffect, useState } from "react";
+import { fetchBooks } from "../../api/booksApi"; // assuming fetchBooks is in a file named bookApi.js
+import Books from "../../interfaces/bookInterface";
+import Sidebar from "../../components/Sidebar";
+import { useAuth } from "../../context/AuthContext";
 
-const HomePage = ({ onLogout }: { onLogout: () => void }) => {
-  const [books, setBooks] = useState<Books[]>([]); 
+const HomePage = () => {
+  const [books, setBooks] = useState<Books[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
+  const [error, setError] = useState<string | null>(null);
+  const { user, logout } = useAuth();
   useEffect(() => {
     const getBooks = async () => {
       try {
         const response = await fetchBooks();
         const fetchedBooks = response.books.Books; // Accessing the Books array
         setBooks(fetchedBooks);
-      } catch (err) {
-        setError(err.message);
+      } catch (err: unknown) {
+        setError((err as { message: string }).message);
       } finally {
         setLoading(false);
       }
@@ -25,7 +26,8 @@ const HomePage = ({ onLogout }: { onLogout: () => void }) => {
   }, []);
 
   if (loading) return <p className="text-center text-xl">Loading...</p>;
-  if (error) return <p className="text-center text-xl text-red-500">Error: {error}</p>;
+  if (error)
+    return <p className="text-center text-xl text-red-500">Error: {error}</p>;
 
   return (
     <div className="flex">
@@ -36,9 +38,10 @@ const HomePage = ({ onLogout }: { onLogout: () => void }) => {
       <div className="flex-1 p-6">
         <h1 className="text-3xl font-semibold text-center mb-6">Home Page</h1>
         <div className="text-center mb-6">
-          <button 
-            onClick={onLogout} 
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">
+          <button
+            onClick={logout}
+            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+          >
             Logout
           </button>
         </div>
@@ -46,14 +49,27 @@ const HomePage = ({ onLogout }: { onLogout: () => void }) => {
         <h2 className="text-2xl font-semibold text-center mb-4">Book List</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {books.map((book) => (
-            <div key={book._id} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
+            <div
+              key={book._id}
+              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition"
+            >
               <h3 className="text-xl font-bold text-blue-600">{book.title}</h3>
               <p className="text-gray-600 mt-1">Author: {book.author}</p>
               <p className="text-gray-600">Genre: {book.genre}</p>
               <p className="text-gray-600">ISBN: {book.isbn}</p>
-              <p className="text-gray-600">Publication Date: {new Date(book.publication_date).toLocaleDateString()}</p>
-              <p className="text-gray-600">Availability: {book.available ? 'Available' : 'Checked Out'}</p>
-              <p className="text-gray-600">Due Date: {book.due_date ? new Date(book.due_date).toLocaleDateString() : 'N/A'}</p>
+              <p className="text-gray-600">
+                Publication Date:{" "}
+                {new Date(book.publication_date).toLocaleDateString()}
+              </p>
+              <p className="text-gray-600">
+                Availability: {book.available ? "Available" : "Checked Out"}
+              </p>
+              <p className="text-gray-600">
+                Due Date:{" "}
+                {book.due_date
+                  ? new Date(book.due_date).toLocaleDateString()
+                  : "N/A"}
+              </p>
             </div>
           ))}
         </div>
