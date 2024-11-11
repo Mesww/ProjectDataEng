@@ -27,11 +27,10 @@ const HomePage = () => {
     getBooks();
   }, []);
 
-  // Function to handle book checkout
   const handleCheckout = async (book: Books) => {
     const borrowDate = new Date();
     const dueDate = new Date();
-    dueDate.setDate(borrowDate.getDate() + 7); // Set due date 7 days from now
+    dueDate.setDate(borrowDate.getDate() + 7);
 
     const transactionData = {
       book_id: book._id,
@@ -42,7 +41,6 @@ const HomePage = () => {
     };
 
     try {
-      console.log(transactionData)
       await addTransaction(transactionData);
       alert(`Successfully checked out ${book.title}`);
       setBooks((prevBooks) =>
@@ -55,58 +53,109 @@ const HomePage = () => {
     }
   };
 
-  if (loading) return <p className="text-center text-xl">Loading...</p>;
-  if (error)
-    return <p className="text-center text-xl text-red-500">Error: {error}</p>;
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="text-center space-y-3">
+        <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <p className="text-lg text-gray-600">Loading your library...</p>
+      </div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+        <p className="text-red-600 text-lg font-medium">Error: {error}</p>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="flex">
-      {/* Sidebar */}
+    <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
 
-      {/* Main Content */}
-      <div className="flex-1 p-6">
-        <h1 className="text-3xl font-semibold text-center mb-6">Welcome {user?.name}</h1>
-        <div className="text-center mb-6">
-          <button
-            onClick={logout}
-            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-          >
-            Logout
-          </button>
-        </div>
-
-        <h2 className="text-2xl font-semibold text-center mb-4">Book List</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {books.map((book) => (
-            <div
-              key={book._id}
-              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition"
+      <div className="flex-1 p-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Header Section */}
+          <div className="bg-white rounded-2xl shadow-sm p-8 mb-8">
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">
+              Welcome back, <span className="text-blue-600">{user?.name}</span>
+            </h1>
+            <button
+              onClick={logout}
+              className="px-6 py-2.5 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition-colors duration-200 focus:ring-4 focus:ring-red-200"
             >
-              <h3 className="text-xl font-bold text-blue-600">{book.title}</h3>
-              <p className="text-gray-600 mt-1">Author: {book.author}</p>
-              <p className="text-gray-600">Genre: {book.genre}</p>
-              <p className="text-gray-600">ISBN: {book.isbn}</p>
-              <p className="text-gray-600">
-                Publication Date: {new Date(book.publication_date).toLocaleDateString()}
-              </p>
-              <p className="text-gray-600">
-                Availability: {book.available ? "Available" : "Checked Out"}
-              </p>
-              <p className="text-gray-600">
-                Due Date: {book.due_date ? new Date(book.due_date).toLocaleDateString() : "N/A"}
-              </p>
-              <button
-                onClick={() => handleCheckout(book)}
-                disabled={!book.available}
-                className={`mt-4 px-4 py-2 rounded text-white ${
-                  book.available ? "bg-green-600 hover:bg-green-700" : "bg-gray-400 cursor-not-allowed"
-                }`}
-              >
-                {book.available ? "Check Out" : "Not Available"}
-              </button>
+              Logout
+            </button>
+          </div>
+
+          {/* Books Grid */}
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-gray-800">Available Books</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {books.map((book) => (
+                <div
+                  key={book._id}
+                  className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
+                >
+                  <div className="p-6 space-y-4">
+                    <div className="space-y-2">
+                      <h3 className="text-xl font-bold text-gray-800 line-clamp-1">
+                        {book.title}
+                      </h3>
+                      <p className="text-gray-600">by {book.author}</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center text-sm text-gray-500">
+                        <span className="font-medium mr-2">Genre:</span>
+                        <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full">
+                          {book.genre}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-500">
+                        <span className="font-medium">ISBN:</span> {book.isbn}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        <span className="font-medium">Published:</span>{' '}
+                        {new Date(book.publication_date).toLocaleDateString()}
+                      </p>
+                      <div className="flex items-center text-sm">
+                        <span className="font-medium mr-2">Status:</span>
+                        <span
+                          className={`px-3 py-1 rounded-full ${
+                            book.available
+                              ? 'bg-green-50 text-green-600'
+                              : 'bg-gray-50 text-gray-600'
+                          }`}
+                        >
+                          {book.available ? 'Available' : 'Checked Out'}
+                        </span>
+                      </div>
+                      {book.due_date && (
+                        <p className="text-sm text-gray-500">
+                          <span className="font-medium">Due Date:</span>{' '}
+                          {new Date(book.due_date).toLocaleDateString()}
+                        </p>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={() => handleCheckout(book)}
+                      disabled={!book.available}
+                      className={`w-full py-2.5 rounded-lg font-medium transition-colors duration-200 ${
+                        book.available
+                          ? 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-4 focus:ring-blue-200'
+                          : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      }`}
+                    >
+                      {book.available ? 'Check Out' : 'Not Available'}
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>
