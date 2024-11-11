@@ -24,13 +24,13 @@ const SidebarAdmin = () => {
       <nav>
         <ul>
           <li className={`mb-4 ${location.pathname === '/admin' ? 'text-blue-300' : ''}`}>
-            <Link to="/" className="hover:text-blue-300">Books</Link>
+            <Link to="/admin" className="hover:text-blue-300">Books</Link>
           </li>
-          <li className={`mb-4 ${location.pathname === '/history' ? 'text-blue-300' : ''}`}>
-            <Link to="/history" className="hover:text-blue-300">Borrowers</Link>
+          <li className={`mb-4 ${location.pathname === '/admin/borrowers' ? 'text-blue-300' : ''}`}>
+            <Link to="/admin/borrowers" className="hover:text-blue-300">Borrowers</Link>
           </li>
-          <li className={`mb-4 ${location.pathname === '/history' ? 'text-blue-300' : ''}`}>
-            <Link to="/history" className="hover:text-blue-300">All History</Link>
+          <li className={`mb-4 ${location.pathname === '/admin/history' ? 'text-blue-300' : ''}`}>
+            <Link to="/admin/borrowers" className="hover:text-blue-300">All History</Link>
           </li>
         </ul>
       </nav>

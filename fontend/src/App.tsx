@@ -6,6 +6,7 @@ import ProfilePage from "./pages/ProfilePage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import HomePage from "./pages/UserPage/HomePage";
 import HistoryPage from "./pages/UserPage/HistoryPage";
+import AdminBorrowers from "./pages/AdminPage/AdminBorrowers";
 
 // Protected Route wrapper component
 const ProtectedRoute = ({
@@ -66,6 +67,15 @@ const App = () => {
         element={
           <ProtectedRoute allowedRoles={["admin"]}>
             <AdminPage />
+          </ProtectedRoute>
+        }
+      />
+
+<Route
+        path="/admin/borrowers"
+        element={
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <AdminBorrowers />
           </ProtectedRoute>
         }
       />

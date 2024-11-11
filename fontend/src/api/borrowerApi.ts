@@ -1,3 +1,4 @@
+import Borrower from "../interfaces/BorrowersInterface";
 import axiosInstance from "./axiosInstance";
 
 export const fetchborrowers = async () => {
@@ -10,13 +11,13 @@ export const fetchborrowers = async () => {
     return response.data;
   };
   
-  export const addborrower = async () => {
-    const response = await axiosInstance.post('/borrowers');
+  export const addborrower = async (newBorrower: Borrower) => {
+    const response = await axiosInstance.post('/borrowers', newBorrower);
     return response.data;
   };
   
-  export const updateborrower = async (id: string) => {
-    const response = await axiosInstance.put(`/borrowers/${id}`);
+  export const updateborrower = async (id: string, selectedBorrower: Borrower) => {
+    const response = await axiosInstance.put(`/borrowers/${id}`,selectedBorrower);
     return response.data;
   };
   
