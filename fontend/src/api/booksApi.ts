@@ -1,4 +1,5 @@
 // src/api/userApi.js
+import Books from '../interfaces/bookInterface';
 import axiosInstance from './axiosInstance';
 
 export const fetchBooks = async () => {
@@ -6,8 +7,8 @@ export const fetchBooks = async () => {
   return response.data;
 };
 
-export const addBook = async () => {
-    const response = await axiosInstance.post('/books');
+export const addBook = async (newBook: { title: string; author: string; genre: string; publication_date: string; isbn: string; available: boolean; }) => {
+    const response = await axiosInstance.post('/books', newBook);
     return response.data;
   };
 
@@ -16,8 +17,8 @@ export const fetchBookById = async (id: string) => {
     return response.data;
   };
 
-export const updateBook = async (id: string) => {
-  const response = await axiosInstance.put(`/books/${id}`);
+export const updateBook = async (id: string, updatedDetails: Partial<Books>) => {
+  const response = await axiosInstance.put(`/books/${id}`, updatedDetails);
   return response.data;
 };
 

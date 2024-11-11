@@ -1,7 +1,7 @@
 import  { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const Sidebar = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
+const SidebarAdmin = () => {
   const location = useLocation();  // to track current route
   const [isOpen, setIsOpen] = useState(true);
 
@@ -23,21 +23,19 @@ const Sidebar = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
 
       <nav>
         <ul>
-          <li className={`mb-4 ${location.pathname === '/' ? 'text-blue-300' : ''}`}>
-            <Link to="/" className="hover:text-blue-300">Home</Link>
+          <li className={`mb-4 ${location.pathname === '/admin' ? 'text-blue-300' : ''}`}>
+            <Link to="/" className="hover:text-blue-300">Books</Link>
           </li>
           <li className={`mb-4 ${location.pathname === '/history' ? 'text-blue-300' : ''}`}>
-            <Link to="/history" className="hover:text-blue-300">History</Link>
+            <Link to="/history" className="hover:text-blue-300">Borrowers</Link>
           </li>
-          {isAuthenticated && (
-            <li className="mb-4">
-              <Link to="/profile" className="hover:text-blue-300">Profile</Link>
-            </li>
-          )}
+          <li className={`mb-4 ${location.pathname === '/history' ? 'text-blue-300' : ''}`}>
+            <Link to="/history" className="hover:text-blue-300">All History</Link>
+          </li>
         </ul>
       </nav>
     </div>
   );
 };
 
-export default Sidebar;
+export default SidebarAdmin;

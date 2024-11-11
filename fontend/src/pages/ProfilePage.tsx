@@ -13,7 +13,7 @@ const ProfilePage = () => {
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Profile</h1>
       <div className="bg-white p-6 rounded-lg shadow">
-        <p>Welcome, {user.username}!</p>
+        <p>Welcome, {user.name}!</p>
         <p>Role: {user.role}</p>
         <button
           onClick={logout}
