@@ -30,7 +30,7 @@ const SidebarAdmin = () => {
             <Link to="/admin/borrowers" className="hover:text-blue-300">Borrowers</Link>
           </li>
           <li className={`mb-4 ${location.pathname === '/admin/history' ? 'text-blue-300' : ''}`}>
-            <Link to="/admin/borrowers" className="hover:text-blue-300">All History</Link>
+            <Link to="/admin/history" className="hover:text-blue-300">All History</Link>
           </li>
         </ul>
       </nav>
