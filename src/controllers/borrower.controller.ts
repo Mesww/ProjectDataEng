@@ -1,4 +1,4 @@
-import { getBorrower,getBorrowers,addBorrower,updateBorrower,deleteBorrower } from '../services/borrower.service';
+import { getBorrower,getBorrowers,addBorrower,updateBorrower,deleteBorrower, checkOverdueStatuses } from '../services/borrower.service';
 
 import { Request, Response } from 'express';
 
@@ -46,3 +46,11 @@ export const deleteBorrowerController = async (req: Request, res: Response) => {
         res.status(500).send({ "borrower":null,status:500,message:"Internal server error" });
     }
 }
+export const checkOverdueStatusesController = async (req: Request, res: Response) => {
+    try {
+        const response = await checkOverdueStatuses();
+        res.status(response.status).send(response);
+    } catch (error) {
+        res.status(500).send({ status: 500, message: "Internal server error while updating overdue statuses" });
+    }
+};

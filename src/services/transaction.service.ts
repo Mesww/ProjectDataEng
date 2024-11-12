@@ -2,7 +2,7 @@ import Transaction from "../models/Transactions";
 import { ITransaction } from "../interfaces/transaction.interface";
 import Book from "../models/Books";
 import Borrower, { BorrowingHistorySchema } from "../models/Borrowers";
-import { Iborrowing_history } from "../interfaces/borrower.interface";
+import { IBorrowingHistory } from "../interfaces/borrower.interface";
 
 export const getTransactions = async () => {
   try {
@@ -45,10 +45,12 @@ export const addTransaction = async (transaction: ITransaction) => {
     }
 
     // Add to borrowing history
-    const borrowing_history: Iborrowing_history = {
+    const borrowing_history: IBorrowingHistory = {
       book_id: transaction.book_id.toString(),
       borrow_date: new Date(transaction.borrow_date),
+      due_date: new Date(transaction.due_date),
       return_date: undefined,
+      status: "borrowed",
     };
 
     user.borrowing_history?.push(borrowing_history);
@@ -159,3 +161,4 @@ export const deleteTransaction = async (id: string) => {
     return { status: 500, message: error };
   }
 };
+

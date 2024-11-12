@@ -6,7 +6,10 @@ import bookRoute from './routes/book.route';
 import borrowerRoute from './routes/borrower.route';
 import transactionRoute from './routes/transaction.route';
 import logMiddleware from './middlewares/log';
-const cors = require('cors');
+import cron from 'node-cron';
+import { checkOverdueStatuses } from './services/borrower.service'; // Adjust the path if necessary
+
+import cors from 'cors';
 dotenv.config();
 const app = express();
 const port = 3000;
@@ -26,6 +29,20 @@ app.get('/', (req, res) => {
 app.use('/books', bookRoute);
 app.use('/borrowers', borrowerRoute);
 app.use('/transactions', transactionRoute);
+
+
+// Schedule the job to run every day at midnight
+cron.schedule('* * * * *', async () => {
+    try {
+        console.log("Running daily overdue status check...");
+        await checkOverdueStatuses();
+        console.log("Overdue status check completed successfully.");
+    } catch (error) {
+        console.error("Error during overdue status check:", error);
+    }
+});
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

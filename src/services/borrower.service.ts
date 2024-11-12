@@ -74,3 +74,12 @@ export const deleteBorrower = async (id:string) => {
         throw new Error(`Error ${error}`);
     }
 }
+
+export const checkOverdueStatuses = async () => {
+    try {
+        await Borrower.checkOverdueStatuses();
+        return { status: 200, message: "Overdue statuses updated successfully" };
+    } catch (error) {
+        throw new Error(`Error updating overdue statuses: ${error}`);
+    }
+};
