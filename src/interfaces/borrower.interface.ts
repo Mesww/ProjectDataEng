@@ -6,6 +6,7 @@ export interface IBorrowingHistory {
   return_date?: Date;
   due_date: Date;
   status: string;
+  finds: number;
 }
 
 export interface IBorrower extends Document {

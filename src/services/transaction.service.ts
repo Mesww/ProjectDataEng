@@ -51,6 +51,7 @@ export const addTransaction = async (transaction: ITransaction) => {
       due_date: new Date(transaction.due_date),
       return_date: undefined,
       status: "borrowed",
+      finds: 0,
     };
 
     user.borrowing_history?.push(borrowing_history);

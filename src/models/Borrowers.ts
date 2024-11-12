@@ -6,7 +6,8 @@ const BorrowingHistorySchema = new Schema<IBorrowingHistory>({
   borrow_date: { type: Date, required: true },
   return_date: { type: Date },
   due_date: { type: Date, required: true },
-  status: { type: String, required: true, default: 'borrowed' }
+  status: { type: String, required: true, default: 'borrowed' },
+  finds: { type: Number, default: 0 }
 });
 
 const borrowerSchema = new Schema<IBorrower>({
@@ -18,21 +19,33 @@ const borrowerSchema = new Schema<IBorrower>({
   activeStatus: { type: Boolean, default: true },
   borrowing_history: { type: [BorrowingHistorySchema], default: [] }
 });
-
-// Instance method to update overdue status for a single borrower
+// Fine rate per day for overdue books
+const FINE_RATE = 100;
+// Instance method to update overdue status and calculate fines for a single borrower
 borrowerSchema.methods.updateOverdueStatus = async function () {
   const now = new Date();
-  this.borrowing_history.forEach((history:IBorrowingHistory) => {
+
+  this.borrowing_history.forEach((history: IBorrowingHistory) => {
     if (history.status !== 'returned') {
-      if ((history.return_date && history.return_date > history.due_date) || 
+      if ((history.return_date && history.return_date > history.due_date) ||
           (!history.return_date && now > history.due_date)) {
+        
+        // Set status to 'overdue'
         history.status = 'overdue';
+
+        // Calculate the overdue days
+        const overdueDays = history.return_date 
+          ? Math.ceil((history.return_date.getTime() - history.due_date.getTime()) / (1000 * 60 * 60 * 24))
+          : Math.ceil((now.getTime() - history.due_date.getTime()) / (1000 * 60 * 60 * 24));
+
+        // Calculate the fine and update `finds`
+        history.finds = overdueDays * FINE_RATE;
       }
     }
   });
+
   await this.save();
 };
-
 // Static method to check overdue statuses for all borrowers
 borrowerSchema.statics.checkOverdueStatuses = async function () {
   const borrowers = await this.find();

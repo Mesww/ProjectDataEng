@@ -18,6 +18,8 @@ interface BorrowingHistory {
   book_id: string;
   borrow_date: string;
   return_date: string | null;
+  status:string
+  finds: number;
 }
 
 const HistoryPage = () => {
@@ -207,6 +209,14 @@ const HistoryPage = () => {
                             ? `Returned: ${formatDate(history.return_date)}`
                             : 'Not returned yet'}
                         </span>
+                      </div>
+                      <div className="flex items-center text-gray-700">
+                      <span className="mr-2">📤</span>
+                        <span >{history.status.toUpperCase()}</span>
+                      </div>
+                      <div className="flex items-center text-gray-700">
+                      <span className="mr-2">📤</span>
+                        <span >Finds {history.finds} $</span>
                       </div>
                     </div>
                   </div>
