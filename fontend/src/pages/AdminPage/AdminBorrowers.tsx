@@ -11,7 +11,7 @@ const AdminBorrowers = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedBorrower, setSelectedBorrower] = useState<Borrower | null>(null);
-  const [newBorrower, setNewBorrower] = useState<Borrower>({ name: "", email: "", phone: "", activeStatus: true, role: "user", borrowing_history: [] });
+  const [newBorrower, setNewBorrower] = useState<Borrower>({ name: "", email: "", phone: "", password:"", activeStatus: true, role: "user", borrowing_history: [] });
   
   const loadBorrowers = async () => {
     try {
@@ -38,6 +38,7 @@ const AdminBorrowers = () => {
         phone: "",
         activeStatus: true,
         role: "user",
+        password:"",
         borrowing_history: []
       });
       loadBorrowers();
@@ -190,6 +191,13 @@ const AdminBorrowers = () => {
               placeholder="Email"
               value={newBorrower.email}
               onChange={(e) => setNewBorrower({ ...newBorrower, email: e.target.value })}
+              className="border border-gray-300 p-2 mb-2 w-full"
+            />
+             <input
+              type="text"
+              placeholder="Password"
+              value={newBorrower.password}
+              onChange={(e) => setNewBorrower({ ...newBorrower, password: e.target.value })}
               className="border border-gray-300 p-2 mb-2 w-full"
             />
             <input
